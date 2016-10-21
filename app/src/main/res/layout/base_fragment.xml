@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.hei123.lolcustom.Controls.MyLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                      android:id="@+id/myframelayout"
+                                                      android:orientation="vertical"
+                                                      android:layout_width="match_parent"
+                                                      android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+        <com.example.hei123.lolcustom.Controls.CircleImageButton
+            android:id="@+id/btn_menu"
+            android:background="@null"
+            android:text="菜单"
+            android:src="@mipmap/header1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+
+
+</com.example.hei123.lolcustom.Controls.MyLinearLayout>

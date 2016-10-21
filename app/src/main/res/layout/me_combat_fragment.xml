@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/me_tab_bg"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <include layout="@layout/me_combat_header">
+    </include>
+    <ListView
+        android:layout_marginTop="8dp"
+        android:background="@color/me_fragment_list_bg"
+        android:id="@+id/lv_combat"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </ListView>
+
+</LinearLayout>

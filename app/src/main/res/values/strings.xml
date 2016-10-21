@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LOLCustom</string>
+    <string name="main_tab_name_news">资讯</string>
+    <string name="main_tab_name_friend">好友</string>
+    <string name="main_tab_name_descover">发现</string>
+    <string name="main_tab_name_me">我</string>
+</resources>

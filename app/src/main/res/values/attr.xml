@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ViewPagerIndicator">
+        <attr name="color_text_normal" format="color"/>
+        <attr name="color_text_highlightcolor" format="color"/>
+    </declare-styleable>
+    <!--<attr name="color_text_normal" format="color"/>-->
+    <!--<attr name="color_text_highlightcolor" format="color"/>-->
+</resources>

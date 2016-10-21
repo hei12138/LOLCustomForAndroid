@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.hei123.lolcustom.Controls.SlideMenu xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 android:id="@+id/slidemenu"
+                                                 android:background="@drawable/bg"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/fl_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+</com.example.hei123.lolcustom.Controls.SlideMenu>

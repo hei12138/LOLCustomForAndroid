@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colortext">#FFD3BF8D</color>
+    <color name="tabbgColor">#FFF0F0F0</color>
+    <color name="me_combat_header_bg">#FAFBFC</color>
+    <color name="me_tab_bg">#EDEFEE</color>
+    <color name="me_fragment_bg">#E9E9EA</color>
+    <color name="me_fragment_list_bg">#FAFBFC</color>
+</resources>
