@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,7 +24,7 @@ import java.util.Date;
  * CopyRight @hei123
  */
 
-public class MyPullToRefreshListView extends ListView {
+public class MyPullToRefreshListView extends ListView implements AbsListView.OnScrollListener {
 
     private View mHeaderView;
     private int mHeaderViewHeight;
@@ -31,6 +32,7 @@ public class MyPullToRefreshListView extends ListView {
     private static final int STATE_PULL_TOREFRESH=1;
     private static  final int STATE_RELEASE_TO_REFRESH=2;
     private static  final  int STATE_REFRESHING=3;
+    private static boolean CanRefresh=true;
 
     private int mCurrentState=STATE_PULL_TOREFRESH;
     private TextView tv_title;
@@ -66,73 +68,81 @@ public class MyPullToRefreshListView extends ListView {
         mHeaderView.setPadding(0,-mHeaderViewHeight,0,0);
         initAnim();
         setCurrentTime();
+        this.setOnScrollListener(this);
     }
+
 
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()){
-            case MotionEvent.ACTION_DOWN:
+        if(CanRefresh){
+            switch (ev.getAction()){
+                case MotionEvent.ACTION_DOWN:
 //                if(mCurrentState==STATE_PULL_TOREFRESH){
 //                    return true;
 //                }
-                startY = (int) ev.getY();
-                startX = (int) ev.getX();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                //getParent().requestDisallowInterceptTouchEvent(true);
-                if(startY==-1){
-                    //当用户按住头条新闻的viewpage进行下拉时
-                    //action_down可能会被viewpager消费掉
-                    //导致starty没有被赋值
-                    //重新获取
-                    startY= (int) ev.getY();
-                }
-                if(mCurrentState==STATE_REFRESHING){
+                    startY = (int) ev.getY();
+                    startX = (int) ev.getX();
                     break;
-                }
-
-                int endY= (int) ev.getY();
-                int endX= (int) ev.getX();
-                int dx=endX-startX;
-                int dy=endY-startY;
-                //设置父控件不拦截上下滑动
-                if(Math.abs(dx)<Math.abs(dy)){
-                    getParent().requestDisallowInterceptTouchEvent(true);
-                }
-                //下拉并且当前显示的是第一个item
-                if(dy>0&&getFirstVisiblePosition()==0){
-                    int padding=dy-mHeaderViewHeight;//计算当前下拉布局控件的padding
-                    mHeaderView.setPadding(0,padding,0,0);
-                    float fraction=dy*1.0f/getMeasuredHeight();
-                    //2/执行一系列的伴随动画
-                    excuteAnimation(fraction);
-                    if(padding>0&&mCurrentState!=STATE_RELEASE_TO_REFRESH){
-                        mCurrentState=STATE_RELEASE_TO_REFRESH;
-                        refreshState();
-                    }else if(padding<0&&mCurrentState!=STATE_PULL_TOREFRESH){
-                        mCurrentState=STATE_PULL_TOREFRESH;
-                        refreshState();
+                case MotionEvent.ACTION_MOVE:
+                    //getParent().requestDisallowInterceptTouchEvent(true);
+                    if(startY==-1){
+                        //当用户按住头条新闻的viewpage进行下拉时
+                        //action_down可能会被viewpager消费掉
+                        //导致starty没有被赋值
+                        //重新获取
+                        startY= (int) ev.getY();
                     }
-                    //return  true;
-                }
+                    if(mCurrentState==STATE_REFRESHING){
+                        break;
+                    }
 
-                break;
-            case MotionEvent.ACTION_UP:
-                getParent().requestDisallowInterceptTouchEvent(false);
-                startY=-1;
-                if(mCurrentState==STATE_RELEASE_TO_REFRESH){
-                    mCurrentState=STATE_REFRESHING;
-                    refreshState();
-                    //完全展示
-                    mHeaderView.setPadding(0,0,0,0);
-                    excuteAnimation(0);
-                    if(mListener!=null) mListener.onRefresh();
-                }else if(mCurrentState==STATE_PULL_TOREFRESH){
-                    mHeaderView.setPadding(0,-mHeaderViewHeight,0,0);
-                }
-                break;
+                    int endY= (int) ev.getY();
+                    int endX= (int) ev.getX();
+                    int dx=endX-startX;
+                    int dy=endY-startY;
+                    //设置父控件不拦截上下滑动
+                    if(Math.abs(dx)<Math.abs(dy)){
+                        getParent().requestDisallowInterceptTouchEvent(true);
+                    }
+                    //下拉并且当前显示的是第一个item 并且能够滑动
+                    if(dy>0&&getFirstVisiblePosition()==0){
+                        int repairY = (int) getY();
+                        int padding=dy-mHeaderViewHeight-repairY;//计算当前下拉布局控件的padding
+                        mHeaderView.setPadding(0,padding,0,0);
+                        Log.i("tag",""+padding);
+                        float fraction=dy*1.0f/getMeasuredHeight();
+                        //2/执行一系列的伴随动画
+                        excuteAnimation(fraction);
+                        if(padding>0&&mCurrentState!=STATE_RELEASE_TO_REFRESH){
+
+                            mCurrentState=STATE_RELEASE_TO_REFRESH;
+                            refreshState();
+                        }else if(padding<0&&mCurrentState!=STATE_PULL_TOREFRESH){
+                            mCurrentState=STATE_PULL_TOREFRESH;
+                            refreshState();
+                        }
+                        //return true;
+                    }
+
+                    break;
+                case MotionEvent.ACTION_UP:
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                    startY=-1;
+                    if(mCurrentState==STATE_RELEASE_TO_REFRESH){
+                        mCurrentState=STATE_REFRESHING;
+                        refreshState();
+                        //完全展示
+                        mHeaderView.setPadding(0,0,0,0);
+                        excuteAnimation(0);
+                        if(mListener!=null) mListener.onRefresh();
+                    }else if(mCurrentState==STATE_PULL_TOREFRESH){
+                        mHeaderView.setPadding(0,-mHeaderViewHeight,0,0);
+                    }
+                    break;
+            }
         }
+
         return super.onTouchEvent(ev);
     }
 
@@ -199,6 +209,21 @@ public class MyPullToRefreshListView extends ListView {
     public void setOnRefreshListener(OnRefreshListener listener){
         this.mListener=listener;
     }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if(firstVisibleItem==0){
+            CanRefresh=true;
+        }else{
+            CanRefresh=false;
+        }
+    }
+
 
     //下拉刷新的回校接口
     public interface OnRefreshListener{

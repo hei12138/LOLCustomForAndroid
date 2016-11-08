@@ -3,6 +3,7 @@ package com.example.hei123.lolcustom.Fragment.Base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,34 +24,43 @@ public abstract class BaseFragment extends Fragment {
     public View mRootview;//当前页面的布局对象
     public ImageButton btn_menu;
     public FrameLayout fl_content;
+    public View toolbar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = (MainActivity) getActivity();
-        mRootview=initView();
-        initData();
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (mRootview == null) {
+            Log.i("tag", "创建了UI内容");
+            mRootview = inflater.inflate(R.layout.base_fragment, container, false);
+            initView();
+            initData();
+        }
+        ViewGroup parent = (ViewGroup) mRootview.getParent();
+        if (parent != null) {
+            parent.removeView(mRootview);
+        }
+
         return mRootview;
     }
 
     //初始化布局
-    public View initView(){
-        View view = View.inflate(mActivity, R.layout.base_fragment, null);
-        btn_menu = (ImageButton) view.findViewById(R.id.btn_menu);
+    public void initView() {
+        toolbar = mRootview.findViewById(R.id.toolbar);
+        btn_menu = (ImageButton) mRootview.findViewById(R.id.btn_menu);
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggleMenu();
             }
         });
-        fl_content = (FrameLayout) view.findViewById(R.id.fl_content);
-        return view;
+        fl_content = (FrameLayout) mRootview.findViewById(R.id.fl_content);
     }
 
     private void toggleMenu() {

@@ -15,13 +15,33 @@
             android:layout_height="match_parent">
 
         </FrameLayout>
-        <com.example.hei123.lolcustom.Controls.CircleImageButton
-            android:id="@+id/btn_menu"
-            android:background="@null"
-            android:text="菜单"
-            android:src="@mipmap/header1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <RelativeLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:background="#05000000"
+            android:layout_height="50dp">
+            <com.example.hei123.lolcustom.Controls.CircleImageButton
+                android:id="@+id/btn_menu"
+                android:background="@null"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ImageButton
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:id="@+id/btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="英雄联盟"
+                android:layout_centerInParent="true"
+                android:textSize="18sp"
+                android:textColor="@color/colortext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+
     </FrameLayout>
 
 

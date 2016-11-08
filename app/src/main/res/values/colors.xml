@@ -9,4 +9,6 @@
     <color name="me_tab_bg">#EDEFEE</color>
     <color name="me_fragment_bg">#E9E9EA</color>
     <color name="me_fragment_list_bg">#FAFBFC</color>
+    <color name="white">#FFFFFF</color>
+    <color name="PicTopButtonbg">#CCCCCC</color>
 </resources>

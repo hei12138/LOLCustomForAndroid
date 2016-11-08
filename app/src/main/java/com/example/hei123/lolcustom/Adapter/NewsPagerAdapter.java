@@ -3,8 +3,12 @@ package com.example.hei123.lolcustom.Adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.example.hei123.lolcustom.News.NewsDefaultFragment;
+import com.example.hei123.lolcustom.UI.NewsFragment;
+
+import java.util.ArrayList;
 
 /**
  * Created by hei123 on 10/20/2016.
@@ -12,17 +16,25 @@ import com.example.hei123.lolcustom.News.NewsDefaultFragment;
  */
 
 public class NewsPagerAdapter extends FragmentStatePagerAdapter {
-    public static String[] TITLES = new String[] { "首页", "赛事", "活动", "视频", "娱乐" };
+    public static String[] TITLES = new String[] { "首页","活动","娱乐","官方"};
+    private ArrayList<NewsDefaultFragment> fragments;
 
     public NewsPagerAdapter(FragmentManager fm) {
         super(fm);
+        Log.i("tag","创建NewsPagerAdapter");
+        fragments=new ArrayList<>();
+        for (int i=0;i<TITLES.length;i++){
+            NewsDefaultFragment instances = NewsDefaultFragment.getInstances(i);
+            fragments.add(instances);
+        }
+
     }
 
 
     @Override
     public Fragment getItem(int position) {
-        NewsDefaultFragment instances = NewsDefaultFragment.getInstances(TITLES[position]);
-        return instances;
+        fragments.get(position).initData();
+        return fragments.get(position);
     }
 
     @Override

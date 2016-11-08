@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:id="@+id/fl_menu"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-<TextView
-    android:text="你好，我是菜单页"
-    android:textSize="22sp"
-    android:textColor="#f00"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:padding="24dp"
+             android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="设置"
+        android:textSize="22sp"
+        android:textColor="@drawable/selector_setting_btn_color"
+        android:background="@null"
+        android:drawableLeft="@drawable/selector_btn_setting_icon"/>
 </FrameLayout>

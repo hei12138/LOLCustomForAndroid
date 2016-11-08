@@ -346,7 +346,7 @@ public class ViewPagerIndicator extends LinearLayout {
          */
         // 不断改变偏移量，invalidate
         mTranslationX = getWidth() / mTabVisibleCount * (position + offset);
-        Log.i("tag", "" + mTranslationX);
+        //Log.i("tag", "" + mTranslationX);
 
         int tabWidth = getScreenWidth() / mTabVisibleCount;
 
@@ -374,7 +374,7 @@ public class ViewPagerIndicator extends LinearLayout {
      */
     @Override
     protected void onFinishInflate() {
-        Log.e("TAG", "onFinishInflate");
+        //Log.e("TAG", "onFinishInflate");
         super.onFinishInflate();
 
         int cCount = getChildCount();

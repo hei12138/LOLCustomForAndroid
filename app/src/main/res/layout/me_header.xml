@@ -6,31 +6,12 @@
     android:layout_height="wrap_content"
     android:background="@mipmap/header_bg_big">
 
-    <TextView
-        android:id="@+id/tv_region"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:text="艾欧尼亚"
-        android:textColor="@color/colortext"
-        android:textSize="22sp"/>
-
-    <ImageView
-        android:id="@+id/iv_switch_region"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tv_region"
-        android:layout_toRightOf="@+id/tv_region"
-        android:background="@drawable/selector_switch_region"/>
-
     <com.example.hei123.lolcustom.Controls.LOLImageHeader
         android:id="@+id/iv_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_region"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="50dp"
         android:background="@mipmap/game_header_frame"
         android:src="@mipmap/header"/>
 

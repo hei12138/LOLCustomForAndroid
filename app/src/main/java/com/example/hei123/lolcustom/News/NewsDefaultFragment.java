@@ -1,28 +1,34 @@
 package com.example.hei123.lolcustom.News;
 
 import android.content.Intent;
+import android.media.AudioTrack;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.hei123.lolcustom.Adapter.NewsAdapter;
-import com.example.hei123.lolcustom.Controls.MyPullToRefreshListView;
+import com.example.hei123.lolcustom.Adapter.NewsTopPagerAdapter;
 import com.example.hei123.lolcustom.Global.NetWorkConstans;
+import com.example.hei123.lolcustom.Helper.NewsHelper;
 import com.example.hei123.lolcustom.Model.NewsModel;
 import com.example.hei123.lolcustom.R;
-import com.example.hei123.lolcustom.Utils.HttpRequest;
+import com.example.hei123.lolcustom.Views.MainActivity;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by hei123 on 10/20/2016.
@@ -30,131 +36,251 @@ import java.util.ArrayList;
  */
 
 public class NewsDefaultFragment extends Fragment {
-    public final static String TAG="MyFragment";
-    String mData;
-    private MyPullToRefreshListView lv_news;
+    private SwipeRefreshLayout swipe_layout;
+    private ListView lv_news;
+    private SwipeRefreshLayout.OnRefreshListener listener;
+    private View news_header;
+    private View view;
+    private NewsModel data;
+    private NewsModel TopData;
+    private ViewPager viewpager;
+    private CircleIndicator indicator;
+    private String response;
+    private int position;
+    /**
+     * msg what
+     * 0 表示数据来自网络 获取成功
+     * 1 表示数据来自本地 获取成功
+     * 2 表示数据获取失败
+     */
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 0) {
-                //数据读取成成功
-                processData(response);
+            switch (msg.what) {
+                case NewsHelper.MSG_SUCCESS_LOCAL:
+                    //新闻读取本地数据成功
+                    response = msg.getData().getString("data");
+                    //可以接受到数据
+                    processData(response);
+                    //刷新
+                    Refresh();
+                    break;
+                case NewsHelper.MSG_FAIL_LOCAL:
+                    //读取本地数据失败
+                    //刷新
+                    Refresh();
+                    break;
+                case NewsHelper.MSG_SUCCESS_NET:
+                    //获取网络数据成功
+                    response = msg.getData().getString("data");
+                    processData(response);
+                    //关闭刷新按钮
+                    CloseRefresh();
+                    break;
+                case NewsHelper.MSG_TOP_SUCCESS:
+                    response = msg.getData().getString("data");
+                    processTopData(response);
+                    setIndicator();
+                    break;
+                case NewsHelper.MSG_FAIL_NET:
+                    //网络连接失败
+                    Toast.makeText(getContext(),"网络连接失败",Toast.LENGTH_LONG).show();
+                    break;
+                case NewsHelper.ERROR:
+                    Toast.makeText(getContext(),"发生了错误",Toast.LENGTH_LONG).show();
+                    break;
             }
         }
     };
-    private NewsModel data;
+
+
+    private void CloseRefresh(){
+        swipe_layout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipe_layout.setRefreshing(false);
+                Toast.makeText(getContext(),"刷新完成",Toast.LENGTH_SHORT).show();
+            }
+        });
+        //Log.e("tag","刷新完成");
+    }
+
+
+    /**
+     * 刷新数据
+     */
+    private void Refresh() {
+        swipe_layout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipe_layout.setRefreshing(true);
+            }
+        });
+        listener.onRefresh();
+    }
+
+
+
+    private void setIndicator() {
+        indicator.setViewPager(viewpager);
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.getSlidemenu().setCanOpenMenu(true);
+                } else {
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.getSlidemenu().setCanOpenMenu(false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+
+
 
     private void processData(String json) {
-        //解析数据
-        //Gson
         Gson gson = new Gson();
-        data = gson.fromJson(json, NewsModel.class);
+        try{
+            data = gson.fromJson(json, NewsModel.class);
+            if (data != null) {
+                NewsAdapter newsAdapter = new NewsAdapter(data, getContext());
+                lv_news.setAdapter(newsAdapter);
+            }
+        }catch (Exception e){
+            Log.e("NewsDefaultFragment","json解析错误");
+        }
 
-        //Log.i("tag", article_url);
-        if(data !=null){
-            NewsAdapter newsAdapter = new NewsAdapter(data, getContext());
-            lv_news.setAdapter(newsAdapter);
+    }
 
+    private void processTopData(String json) {
+        Gson gson = new Gson();
+        TopData = gson.fromJson(json, NewsModel.class);
+        if (TopData != null) {
+            viewpager.setAdapter(new NewsTopPagerAdapter(TopData.list, getContext()));
         }
     }
 
-    private String response;
 
-    public static NewsDefaultFragment getInstances(String data){
+    public static NewsDefaultFragment getInstances(int pos) {
         NewsDefaultFragment newsDefaultFragment = new NewsDefaultFragment();
-        newsDefaultFragment.mData=data;
+        newsDefaultFragment.position=pos;
         return newsDefaultFragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //先执行Oncreate
-        //Log.i("tag","创建create");
-
-    }
-
-    private void initData() {
-        getDataFromService();
-    }
-
-    private void getDataFromService() {
-        new Thread() {
-            @Override
-            public void run() {
-                Message msg = Message.obtain();
-                try {
-                    response = HttpRequest.get(NetWorkConstans.HOMEPAGE_URL).body();
-                    //写缓存
-                    //CacheUtils.setCache(GlobalConstants.CATEGORY_URL, response, mActivity);
-                    // Log.i("tag", response);
-                    msg.what = 0;
-                } catch (Exception e) {
-                    Log.i("tag", "出错了");
-                    Log.i("tag",e.toString());
-                    msg.what = 1;
-                }
-                handler.sendMessage(msg);
-            }
-
-        }.start();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //Log.i("tag","创建createView");
-        String str = "你好啊";
-        if (savedInstanceState != null) {
-            str = savedInstanceState.getString("SaveInstanceStateEXTRA");
+        if (view == null) {
+            view = inflater.inflate(R.layout.news_list, container, false);
+            initView();
+            if(position==0){
+                news_header = inflater.inflate(R.layout.news_header, null);
+                initHeaderView();
+            }
+
+            setListener();
         }
-        View view = inflater.inflate(R.layout.news_list,null);
-        lv_news = (MyPullToRefreshListView) view.findViewById(R.id.lv_news);
-        lv_news.setOnRefreshListener(new MyPullToRefreshListView.OnRefreshListener() {
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
+        return view;
+    }
+
+    private void setListener() {
+        listener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                lv_news.onRefreshComplete(true);
-                            }
-                        });
-                    }
-                }.start();
+                switch (position){
+                    case 0:
+                        NewsHelper.getDataFromService(NetWorkConstans.HOMEPAGE_URL, handler,0);
+                        break;
+                    case 1:
+                        NewsHelper.getDataFromService(NetWorkConstans.ACTIVITY_URL, handler,0);
+                        break;
+                    case 2:
+                        NewsHelper.getDataFromService(NetWorkConstans.ENTERTAINMENT_URL, handler,0);
+                        break;
+                    case 3:
+                        NewsHelper.getDataFromService(NetWorkConstans.INSTITUTE_URL, handler,0);
+                        break;
+                }
+
             }
-        });
-        initData();
+        };
+        swipe_layout.setOnRefreshListener(listener);
+        swipe_layout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         lv_news.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int headerViewsCount = lv_news.getHeaderViewsCount();
-                position=position-headerViewsCount;
+                position = position - headerViewsCount;
                 String article_url = data.list.get(position).article_url;
-                Intent intent =new Intent(getContext(),NewsDetailActivity.class);
-                intent.putExtra("newsurl",article_url);
+                String is_direct = data.list.get(position).is_direct;
+                Intent intent = new Intent(getContext(), NewsDetailActivity.class);
+                intent.putExtra("is_direct", is_direct);
+                intent.putExtra("article_url", article_url);
                 getActivity().startActivity(intent);
             }
         });
-        return view;
+    }
+
+    private void initHeaderView() {
+        viewpager = (ViewPager) news_header.findViewById(R.id.viewpager);
+        indicator = (CircleIndicator) news_header.findViewById(R.id.indicator);
+        lv_news.addHeaderView(news_header);
+    }
+
+    private void initView() {
+        swipe_layout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        lv_news = (ListView) view.findViewById(R.id.lv_news);
+
+    }
+
+
+    public void initData() {
+        switch (position){
+            case 0:
+                NewsHelper.getDataFromLocal(NetWorkConstans.HOMEPAGE_URL, handler);
+                getTopData();
+                break;
+            case 1:
+                NewsHelper.getDataFromLocal(NetWorkConstans.ACTIVITY_URL, handler);
+                break;
+            case 2:
+                NewsHelper.getDataFromLocal(NetWorkConstans.ENTERTAINMENT_URL, handler);
+                break;
+            case 3:
+                NewsHelper.getDataFromLocal(NetWorkConstans.INSTITUTE_URL, handler);
+                break;
+        }
+    }
+
+    private void getTopData() {
+        NewsHelper.getDataFromService(NetWorkConstans.RECOMMANDPAGE_URL, handler, 1);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        outState.putString("tag", "teststring");
         super.onSaveInstanceState(outState);
-        outState.putString("tag","teststring");
+
     }
 
     @Override
     public void onDestroy() {
-        Log.i("tag","销毁了"+mData);
         super.onDestroy();
     }
 

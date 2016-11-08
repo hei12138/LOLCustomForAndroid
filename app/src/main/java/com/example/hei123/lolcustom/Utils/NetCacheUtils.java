@@ -30,7 +30,7 @@ public class NetCacheUtils {
 
     public void getBitmapFromNet(ImageView imageView, String url) {
         //AsyncTask 异步封装的工具 实现异步请求和主界面更新 线程池加handle的封装
-        Log.i("tag","task任务");
+        //Log.i("tag","task任务");
         imageView.setTag(url);
         new BitmapTask().execute(imageView,url);//启动asyncTask
 
@@ -55,7 +55,7 @@ public class NetCacheUtils {
 
             //开始下载图片
             Bitmap bitmap=download(url);
-            Log.i("tag","downloadbitmap");
+            //Log.i("tag","downloadbitmap");
             //publishProgress();调用此方法实现进度更新 回调onpregressUpdate
             return bitmap;
         }
@@ -81,7 +81,7 @@ public class NetCacheUtils {
                 String url= (String) imageView.getTag();
                 if(url.equals(this.url)){
                     imageView.setImageBitmap(result);
-                    Log.i("tag","从网络加载图片啦");
+                    //Log.i("tag","从网络加载图片啦");
                     mLocalCacheUtils.setLocalCache(url,result);
                     mMemoryCacheUtils.setMemoryCache(url,result);
                 }

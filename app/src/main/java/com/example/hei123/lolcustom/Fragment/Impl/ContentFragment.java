@@ -19,7 +19,7 @@ import com.example.hei123.lolcustom.UI.MainTab;
  * CopyRight @hei123
  */
 
-public class ContentFragment extends BaseFragment {
+public class ContentFragment extends MainBaseFragment {
     private FragmentTabHost mTabHost;
     private MainTab[] tabs;
     @Override

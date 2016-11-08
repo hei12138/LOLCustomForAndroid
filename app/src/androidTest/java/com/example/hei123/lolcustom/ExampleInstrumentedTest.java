@@ -3,6 +3,9 @@ package com.example.hei123.lolcustom;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
+
+import com.example.hei123.lolcustom.Helper.NewsHelper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,5 +25,12 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.example.hei123.lolcustom", appContext.getPackageName());
+    }
+    @Test
+    public void test_isWork() throws Exception{
+        //NewsHelper.writeFileCache("ceshi","这是测试用fsdafsagastrwetgsdztdsfa的文本");
+        //NewsHelper.writeFileCache2("ceshi","这是测试用的文本");
+        //String ceshi = NewsHelper.readFileByChars("ceshi");
+        //Log.i("tag",ceshi);
     }
 }

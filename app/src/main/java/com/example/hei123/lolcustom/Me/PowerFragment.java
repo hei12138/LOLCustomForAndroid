@@ -18,6 +18,6 @@ public class PowerFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.me_combat_fragment,null);
+        return inflater.inflate(R.layout.me_power_fragment,null);
     }
 }

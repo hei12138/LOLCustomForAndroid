@@ -4,5 +4,4 @@
     <item android:state_checked="true" android:drawable="@mipmap/tab_news_checked" />
     <item android:state_selected="true" android:drawable="@mipmap/tab_news_checked" />
     <item android:drawable="@mipmap/tab_news" />
-
 </selector>

@@ -25,6 +25,20 @@ public class NetWorkConstans {
      */
     public static final String MATCHPAGE_URL = SERVER_URL + "c73_list_1.shtml";
     /**
+     * 活动地址
+     */
+    public static final String ACTIVITY_URL = SERVER_URL + "c23_list_1.shtml";
+
+    /**
+     * 娱乐地址
+     */
+    public static final String ENTERTAINMENT_URL = SERVER_URL + "c18_list_1.shtml";
+
+    /**
+     * 官方地址
+     */
+    public static final String INSTITUTE_URL = SERVER_URL + "c3_list_1.shtml";
+    /**
      *  //获取数据
 
 
@@ -50,4 +64,53 @@ public class NetWorkConstans {
      try
      {
      */
+    public static final String WALLPAPER_NEW_LIST="http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_list.php?type=new&page=0&num=20&plat=android&version=9709";
+    public static final String WALLPAPER_HOT_LIST="http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_list.php?type=hot&page=0&num=20&plat=android&version=9709";
+
+    /**
+     * 壁纸
+     * http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_list.php?type=new&page=0&num=20&plat=android&version=9709 最新
+     * http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_list.php?type=hot&page=0&num=20&plat=android&version=9709 最热
+     * http://qt.qq.com/php_cgi/lol_mobile/club/varcache_team_entrancev2.php?plat=android&version=9709 Club列表
+     */
+
+    public static final String BING_PAPER="http://appserver.m.bing.net/BackgroundImageService/TodayImageService.svc/GetTodayImage?dateOffset=-0&urlEncodeHeaders=true&osName=windowsPhone&osVersion=8.10&orientation=480x800&deviceName=WP8Device&mkt=zh-CN";
+
+    /**
+     * http://appserver.m.bing.net/BackgroundImageService/TodayImageService.svc/GetTodayImage?dateOffset=-0&urlEncodeHeaders=true&osName=windowsPhone&osVersion=8.10&orientation=480x800&deviceName=WP8Device&mkt=zh-CN
+     * 必应壁纸
+     */
+
+    public static final String SKIN_ORIGINAL="http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=8&page=0&num=20&plat=android&version=9709";
+
+    /**
+     * 皮肤原画
+     * http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=8&page=0&num=20&plat=android&version=9709
+     */
+    public static final String CLIENT_FLASH="http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=22&page=0&num=20&plat=android&version=9709";
+
+    /**
+     * 张萌闪屏
+     * http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=22&page=0&num=20&plat=android&version=9709
+     */
+    public static final String PLAYER_POST="http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=25&page=0&num=20&plat=android&version=9709";
+    /**
+     * 玩家投稿
+     * http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=25&page=0&num=20&plat=android&version=9709
+     */
+
+    public static final String HERO_ORIGINAL="http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=21&page=0&num=20&plat=android&version=9709";
+    /**
+     * 英雄原画
+     * http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=21&page=0&num=20&plat=android&version=9709
+     */
+    /**
+     * vg
+     * http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=36&page=0&num=20&plat=android&version=9709
+     */
+    /**
+     * lgd
+     * http://qt.qq.com/php_cgi/lol_goods/varcache_wallpaper_kind.php?kind=30&page=0&num=20&plat=android&version=9709
+     */
+
 }

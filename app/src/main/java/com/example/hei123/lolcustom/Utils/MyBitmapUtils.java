@@ -23,15 +23,18 @@ public class MyBitmapUtils {
         mNetCacheUtils = new NetCacheUtils(mLocalCacheUtils,mMemoryCacheUtils);
 
     }
+    public static MyBitmapUtils getInstanse(){
+        return new MyBitmapUtils();
+    }
 
     public void display (ImageView imageView, String url){
-        Log.i("tag",mMemoryCacheUtils.toString());
+        //Log.i("tag",mMemoryCacheUtils.toString());
         //设置默认图片
         imageView.setImageResource(R.mipmap.news_image_normal);
         //优先从内存中加载图片
         Bitmap bitmap = mMemoryCacheUtils.getMemoryCache(url);
         if(bitmap!=null){
-            Log.i("tag","从内存加载图片啦");
+            //Log.i("tag","从内存加载图片啦");
             imageView.setImageBitmap(bitmap);
             return;
         }
@@ -40,7 +43,7 @@ public class MyBitmapUtils {
         if(bitmap!=null){
             //有本地缓存
             imageView.setImageBitmap(bitmap);
-            Log.i("tag","从本地加载图片啦");
+            //Log.i("tag","从本地加载图片啦");
             //写内存缓存
             mMemoryCacheUtils.setMemoryCache(url,bitmap);
             return;

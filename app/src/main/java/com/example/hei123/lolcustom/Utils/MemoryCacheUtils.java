@@ -16,7 +16,7 @@ public class MemoryCacheUtils {
     public MemoryCacheUtils(){
         //lruCache可以将最近最少使用的对象回收掉
         long maxM = Runtime.getRuntime().maxMemory();
-        Log.i("tag","maxMemory"+maxM);
+        //Log.i("tag","maxMemory"+maxM);
         mMemoryCache=new LruCache<String,Bitmap>((int) (maxM/8)){
             //返回每个对象的大小
             @Override

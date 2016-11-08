@@ -32,6 +32,8 @@ public class SlideMenu extends FrameLayout {
      * 是否可以开启菜单
      */
     private boolean CanOpenMenu = true;
+    private int startX;
+    private int startY;
 
     //定义状态常量
     enum DragState {
@@ -88,6 +90,24 @@ public class SlideMenu extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (CanOpenMenu) {
+            switch (ev.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    startX = (int) ev.getX();
+                    startY = (int) ev.getY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    int endY= (int) ev.getY();
+                    int endX= (int) ev.getX();
+                    int dx=endX- startX;
+                    int dy=endY- startY;
+                    //设置父控件不拦截上下滑动
+                    if(Math.abs(dx)<Math.abs(dy)){
+                        return false;
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    break;
+            }
             return viewDragHelper.shouldInterceptTouchEvent(ev);
         }
         return false;

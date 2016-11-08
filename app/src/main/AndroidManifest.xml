@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".Controls.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,13 +16,19 @@
         </activity>
         <activity android:name=".News.NewsDetailActivity"/>
         <activity android:name=".Views.SplashActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@style/SplashTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Views.SettingActivity"/>
+        <activity android:name=".Views.TestActivity">
+
+        </activity>
+        <activity android:name=".Picture.WallPaperActivity"/>
+        <activity android:name=".Picture.OriginalPicActivity"/>
+        <activity android:name=".Picture.BaseWallActivity"/>
     </application>
 
 </manifest>

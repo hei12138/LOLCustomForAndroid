@@ -1,6 +1,7 @@
 package com.example.hei123.lolcustom.UI;
 
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 import com.example.hei123.lolcustom.Adapter.NewsPagerAdapter;
@@ -21,13 +22,14 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        btn_menu.setVisibility(View.INVISIBLE);
+        Log.i("News","执行了news页面的initData方法");
+        toolbar.setVisibility(View.INVISIBLE);
         View view = View.inflate(mActivity, R.layout.fragment_news, null);
         indicator = (ViewPagerIndicator) view.findViewById(R.id.indicator);
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
         mAdapter = new NewsPagerAdapter(getChildFragmentManager());
         viewpager.setAdapter(mAdapter);
-        indicator.setVisibleTabCount(5);
+        indicator.setVisibleTabCount(4);
         indicator.setTabItemTitles(mAdapter.TITLES);
         indicator.setViewPager(viewpager,0);
         indicator.setOnPageChangeListener(new ViewPagerIndicator.PageChangeListener() {

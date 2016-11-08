@@ -10,14 +10,14 @@ public enum MainTab {
 
     NEWS(0, R.string.main_tab_name_news,R.drawable.tab_icon_news,NewsFragment.class),
 
-    FRIEND(1, R.string.main_tab_name_friend, R.drawable.tab_icon_friend,
-            FriendFragment.class),
+    PICTURE(1, R.string.main_tab_name_picture, R.drawable.tab_icon_pic,
+            PictureFragment.class),
 
     DISCOVER(2, R.string.main_tab_name_descover, R.drawable.tab_icon_discover,
-            DisCoverFragment.class),
-
-    EXPLORE(3, R.string.main_tab_name_me, R.drawable.tab_icon_me,
-            MeFragment.class);
+            DisCoverFragment.class);
+//
+//    EXPLORE(3, R.string.main_tab_name_me, R.drawable.tab_icon_me,
+//            MeFragment.class);
 
 
 
