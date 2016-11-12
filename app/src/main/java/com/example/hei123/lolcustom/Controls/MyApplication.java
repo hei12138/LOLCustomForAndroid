@@ -30,7 +30,7 @@ public class MyApplication extends Application {
     private static void initImageLoader(Context context) {
         File cacheDir = StorageUtils.getOwnCacheDirectory(context, "LOLCUSTOM/Cache");
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-                .memoryCacheExtraOptions(480, 800) // max width, max height，即保存的每个缓存文件的最大长宽
+//                .memoryCacheExtraOptions(480, 800) // max width, max height，即保存的每个缓存文件的最大长宽
                 .threadPoolSize(3) //线程池内加载的数量
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
@@ -42,7 +42,7 @@ public class MyApplication extends Application {
                 // 由原先的discCache -> diskCache
                 .diskCache(new UnlimitedDiskCache(cacheDir))//自定义缓存路径
                 .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
-//                .writeDebugLogs() // Remove for release app
+               .writeDebugLogs() // Remove for release app
                 .build();
         //全局初始化此配置
         ImageLoader.getInstance().init(config);

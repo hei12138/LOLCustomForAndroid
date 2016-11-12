@@ -16,7 +16,7 @@ import java.io.FileOutputStream;
 
 public class LocalCacheUtils {
     private static final String LOCAL_CACHE_PATH= Environment.getExternalStorageDirectory().
-            getAbsolutePath()+"/LOLCUSTOM";
+            getAbsolutePath()+"/LOLCUSTOM/Cache";
     //写缓存
     public void setLocalCache(String url, Bitmap bitmap){
         File dir=new File(LOCAL_CACHE_PATH);

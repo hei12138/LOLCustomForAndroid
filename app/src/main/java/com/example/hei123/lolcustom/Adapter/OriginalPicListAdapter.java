@@ -17,6 +17,7 @@ import com.example.hei123.lolcustom.Picture.FullScreenDialogFragment;
 import com.example.hei123.lolcustom.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,7 @@ public class OriginalPicListAdapter extends RecyclerView.Adapter<OriginalPicList
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
+                .imageScaleType(ImageScaleType.EXACTLY)
                 .build();
         ImageLoader.getInstance().displayImage(data.get(position).thumbUrl, holder.iv_image, options);
     }
